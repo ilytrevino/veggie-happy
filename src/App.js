@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
+import Home from './pages/home';
 
 class App extends React.Component {
   render() {
@@ -9,7 +9,7 @@ class App extends React.Component {
       <HashRouter>
         <div>
             <Switch>
-              <Route path='/' component={Login} exact/>
+              <Route path='/' component={Home} exact/>
             </Switch>
         </div>
       </HashRouter>
