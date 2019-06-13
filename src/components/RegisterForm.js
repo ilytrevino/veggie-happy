@@ -4,7 +4,6 @@ import Logo from '../assets/logo.png';
 
 const Register = styled.div`
   position: relative;
-  background:rgba(255,255,255,0.95);
   border-radius: 2rem;
   margin: 1rem auto;
   text-align: center;
@@ -12,7 +11,7 @@ const Register = styled.div`
   -moz-backface-visibility: hidden;
   -o-backface-visibility: hidden;
   backface-visibility: hidden;
-  top: -95vh;
+  top: 0;
   height: 95vh;
   -webkit-transform: rotateY( 180deg );
   -moz-transform: rotateY( 180deg );
@@ -26,7 +25,6 @@ const Form = styled.form`
 `;
 
 const FormLabel = styled.label`
-  display: flex;
   margin: 0 auto;
   text-align: center;
 `;
@@ -42,7 +40,9 @@ const FormInput = styled.input`
   padding: 0.1rem;
 `;
 
-const FormAnchor = styled.a`
+const FormAnchor = styled.button`
+  border: none;
+  background: none;
   color: #69D5B5;
   text-decoration: none;
   display: inline-block;
@@ -76,13 +76,6 @@ const SubmitButton = styled.input`
 class RegisterForm extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      value: 'your-email@domain.com'
-    };
-  }
-
-  handleChange = (event) => {
-    this.setState({value: event.target.value});
   }
 
   handleSubmit = (event) => {
@@ -90,21 +83,18 @@ class RegisterForm extends React.Component {
     event.preventDefault();
   }
 
-  handleFlip = () => {
-
-  }
-
   render() {
     return (
       <Register>
         <Form onSubmit={this.handleSubmit}>
           <FormLogo src={Logo} />
-          <FormLabel> Email </FormLabel>
-          <FormInput onChange={this.handleChange} />
-          <FormLabel> Password </FormLabel>
-          <FormInput type="password" />
-          <SubmitButton type="submit" value="Login" />
-          <p>Don't have an account yet? <FormAnchor >Sign up!</FormAnchor></p>
+          <FormLabel> Nombre </FormLabel> <FormInput />
+          <FormLabel> Apellido </FormLabel> <FormInput />
+          <FormLabel> Ciudad </FormLabel> <FormInput />
+          <FormLabel> Correo electrónico </FormLabel> <FormInput />
+          <FormLabel> Contraseña </FormLabel> <FormInput />
+          <SubmitButton type="submit" value="Sign up" />
+          <p>Already have an account? <FormAnchor onClick={this.props.handleCardChange} >Login!</FormAnchor></p>
         </Form>
       </Register>
     );

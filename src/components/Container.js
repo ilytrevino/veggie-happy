@@ -6,8 +6,8 @@ const CommonContainer = styled(Box).attrs({
   w: 1,
   mx: 'auto',
 })`
-  box-sizing: content-box;
-  max-width: 1300px;
+  height: 100vh;
+  width: 100vw;
   position: fixed;
   text-align: center;
 `;

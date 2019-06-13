@@ -19,8 +19,7 @@ const Form = styled.form`
 `;
 
 const FormLabel = styled.label`
-  display: flex;
-  margin: 0 auto;
+  margin: auto;
   text-align: center;
 `;
 
@@ -30,12 +29,14 @@ const FormInput = styled.input`
   display: block;
   font-size: 0.9rem;
   background-color: #A7EEA8;
-  border-radius: 1rem;
-  margin: 1rem auto;
+  border-radius: 0.5rem;
+  margin: 0.5rem auto;
   padding: 0.1rem;
 `;
 
-const FormAnchor = styled.a`
+const FormAnchor = styled.button`
+  border: none;
+  background: none;
   color: #69D5B5;
   text-decoration: none;
   display: inline-block;
@@ -69,22 +70,11 @@ const SubmitButton = styled.input`
 class LoginForm extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      value: 'your-email@domain.com'
-    };
-  }
-
-  handleChange = (event) => {
-    this.setState({value: event.target.value});
   }
 
   handleSubmit = (event) => {
     alert('An essay was submitted: ' + this.state.value);
     event.preventDefault();
-  }
-
-  handleFlip = () => {
-
   }
 
   render() {
@@ -97,7 +87,7 @@ class LoginForm extends React.Component {
           <FormLabel> Password </FormLabel>
           <FormInput type="password" />
           <SubmitButton type="submit" value="Login" />
-          <p>Don't have an account yet? <FormAnchor >Sign up!</FormAnchor></p>
+          <p>Don't have an account yet? <FormAnchor onClick={this.props.handleCardChange}>Sign up!</FormAnchor></p>
         </Form>
       </Login>
     );
