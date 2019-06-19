@@ -1,7 +1,7 @@
-# Creando una Red Social
+# Creating a social network
 
 ![](images/logojpg.jpg)
-#### Proyecto por Susy, Sofy e Ily
+#### Project idea by Susy, Sofy and Ily | Development by Ily Trevino
 
 ## Definición del producto
 
