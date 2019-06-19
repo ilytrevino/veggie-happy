@@ -19,12 +19,8 @@ class Home extends React.Component {
   render() {
     return (
       <Container p={0}>
-
         <Header />
-        <Container p={0} bg={'#E9EBEE'}>
-          <Post />
-        </Container>
-
+        <Post />
         <Footer />
       </Container>
     );

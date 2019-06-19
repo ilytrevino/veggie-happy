@@ -8,7 +8,8 @@ const NavMenus = styled.div `
   height: 77px;
   width: 70%;
   margin: 0 auto;
-  padding: 26px 40px;
+  padding: 20px;
+  padding-left: 0;
 `;
 
 const NavBrand = styled.div `
@@ -32,8 +33,8 @@ const BrandLogo = styled.a `
   background-image: url("https://i.postimg.cc/BQVWWMdQ/logo.png");
   background-size: contain;
   background-repeat: no-repeat;
-  height: 35px;
-  width: 176px;
+  height: 40px;
+  width: 200px;
 `;
 
 class Header extends React.Component{
