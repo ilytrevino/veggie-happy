@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logo.png';
+import '../App.css';
 
 const Register = styled.div`
   position: relative;
@@ -51,7 +52,7 @@ const FormAnchor = styled.button`
 `;
 
 const FormLogo = styled.img`
-  max-width: 50vw;
+  max-width: 80vw;
   margin: 1rem auto;
   display: block;
 `;
@@ -85,7 +86,7 @@ class RegisterForm extends React.Component {
 
   render() {
     return (
-      <Register>
+      <Register className="register">
         <Form onSubmit={this.handleSubmit}>
           <FormLogo src={Logo} />
           <FormLabel> Nombre </FormLabel> <FormInput />
@@ -93,8 +94,8 @@ class RegisterForm extends React.Component {
           <FormLabel> Ciudad </FormLabel> <FormInput />
           <FormLabel> Correo electrónico </FormLabel> <FormInput />
           <FormLabel> Contraseña </FormLabel> <FormInput />
-          <SubmitButton type="submit" value="Sign up" />
-          <p>Already have an account? <FormAnchor onClick={this.props.handleCardChange} >Login!</FormAnchor></p>
+          <SubmitButton type="submit" value="Registrarse" />
+          <p>¿Ya tienes cuenta? <FormAnchor onClick={this.props.handleCardChange} >¡Ingresa!</FormAnchor></p>
         </Form>
       </Register>
     );

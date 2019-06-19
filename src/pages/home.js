@@ -1,13 +1,34 @@
 import React from 'react';
+import styled from 'styled-components';
 import Container from '../components/Container';
-import Card from '../components/Card';
-import BackgroundImage from '../components/Image';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Post from '../components/Post';
 
-const Home = () => (
-  <Container p={0}>
-    <BackgroundImage src='https://i.postimg.cc/SRQ045Sj/verde.jpg' />
-    <Card />
-  </Container>
-);
+const HomepageLogo = styled.img`
+  max-width: 80vw;
+  margin: 1rem auto;
+  display: block;
+`;
+
+class Home extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  render() {
+    return (
+      <Container p={0}>
+
+        <Header />
+        <Container p={0} bg={'#E9EBEE'}>
+          <Post />
+        </Container>
+
+        <Footer />
+      </Container>
+    );
+  }
+}
 
 export default Home;

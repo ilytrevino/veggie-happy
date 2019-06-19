@@ -1,16 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logo.png';
+import '../App.css';
 
 const Login = styled.div`
   position: relative;
   border-radius: 2rem;
   margin: 1rem auto;
   text-align: center;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -o-backface-visibility: hidden;
-  backface-visibility: hidden;
 `;
 
 const Form = styled.form`
@@ -45,7 +42,7 @@ const FormAnchor = styled.button`
 `;
 
 const FormLogo = styled.img`
-  max-width: 50vw;
+  max-width: 80vw;
   margin: 1rem auto;
   display: block;
 `;
@@ -79,15 +76,15 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <Login>
-        <Form onSubmit={this.handleSubmit}>
+      <Login >
+        <Form className="login" onSubmit={this.handleSubmit}>
           <FormLogo src={Logo} />
-          <FormLabel> Email </FormLabel>
+          <FormLabel> Correo electrónico </FormLabel>
           <FormInput onChange={this.handleChange} />
-          <FormLabel> Password </FormLabel>
+          <FormLabel> Contraseña </FormLabel>
           <FormInput type="password" />
-          <SubmitButton type="submit" value="Login" />
-          <p>Don't have an account yet? <FormAnchor onClick={this.props.handleCardChange}>Sign up!</FormAnchor></p>
+          <SubmitButton type="submit" value="Ingresar" />
+          <p>¿Aún no tienes cuenta? <FormAnchor onClick={this.props.handleCardChange}>¡Regístrate!</FormAnchor></p>
         </Form>
       </Login>
     );
