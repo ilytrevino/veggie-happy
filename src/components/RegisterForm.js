@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logo.png';
 import '../App.css';
+import firebase from '../config/FirestoreConfig';
+
 
 const Register = styled.div`
   position: relative;
@@ -77,11 +79,26 @@ const SubmitButton = styled.input`
 class RegisterForm extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      name: '',
+      lastname: '',
+      city: '',
+      email: '',
+      password: ''
+    };
   }
 
-  handleSubmit = (event) => {
-    alert('An essay was submitted: ' + this.state.value);
-    event.preventDefault();
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  signup(e){
+    e.preventDefault();
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+    }).then((u)=>{console.log(u)})
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   render() {
@@ -89,12 +106,12 @@ class RegisterForm extends React.Component {
       <Register className="register">
         <Form onSubmit={this.handleSubmit}>
           <FormLogo src={Logo} />
-          <FormLabel> Nombre </FormLabel> <FormInput />
-          <FormLabel> Apellido </FormLabel> <FormInput />
-          <FormLabel> Ciudad </FormLabel> <FormInput />
-          <FormLabel> Correo electrónico </FormLabel> <FormInput />
-          <FormLabel> Contraseña </FormLabel> <FormInput />
-          <SubmitButton type="submit" value="Registrarse" />
+          <FormLabel> Nombre </FormLabel> <FormInput onChange={this.handleChange} name="name"/>
+          <FormLabel> Apellido </FormLabel> <FormInput onChange={this.handleChange} name="lastname"/>
+          <FormLabel> Ciudad </FormLabel> <FormInput onChange={this.handleChange} name="city"/>
+          <FormLabel> Correo electrónico </FormLabel> <FormInput onChange={this.handleChange} name="email"/>
+          <FormLabel> Contraseña </FormLabel> <FormInput type="password" onChange={this.handleChange} name="password"/>
+          <SubmitButton onClick={this.signup} type="submit" value="Registrarse" />
           <p>¿Ya tienes cuenta? <FormAnchor onClick={this.props.handleCardChange} >¡Ingresa!</FormAnchor></p>
         </Form>
       </Register>

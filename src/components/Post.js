@@ -5,10 +5,11 @@ const PostContainer = styled.div `
   border-radius: 3px;
   border: 1px solid #e6e6e6;
   background-color: #fff;
-  margin: 5% 10%;
+  margin: 5%;
 `;
 
 const PostUser = styled.div `
+  border-bottom: 1px solid #e6e6e6;
   display: flex;
   padding: 10px;
   align-items: center;

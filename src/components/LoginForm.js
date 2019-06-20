@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logo.png';
 import '../App.css';
+import firebase from '../config/FirestoreConfig';
 
 const Login = styled.div`
   position: relative;
@@ -67,23 +68,34 @@ const SubmitButton = styled.input`
 class LoginForm extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      email: '',
+      password: ''
+    };
   }
 
-  handleSubmit = (event) => {
-    alert('An essay was submitted: ' + this.state.value);
-    event.preventDefault();
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  login = (e) => {
+    e.preventDefault();
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+    }).catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
     return (
       <Login >
-        <Form className="login" onSubmit={this.handleSubmit}>
+        <Form className="login">
           <FormLogo src={Logo} />
           <FormLabel> Correo electrónico </FormLabel>
-          <FormInput onChange={this.handleChange} />
+          <FormInput onChange={this.handleChange} name="email"/>
           <FormLabel> Contraseña </FormLabel>
-          <FormInput type="password" />
-          <SubmitButton type="submit" value="Ingresar" />
+          <FormInput onChange={this.handleChange} name="password" type="password" />
+          <SubmitButton onClick={this.login} type="submit" value="Ingresar" />
           <p>¿Aún no tienes cuenta? <FormAnchor onClick={this.props.handleCardChange}>¡Regístrate!</FormAnchor></p>
         </Form>
       </Login>

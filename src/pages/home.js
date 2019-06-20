@@ -4,6 +4,7 @@ import Container from '../components/Container';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Post from '../components/Post';
+import PostWrite from '../components/PostWrite';
 
 const HomepageLogo = styled.img`
   max-width: 80vw;
@@ -20,6 +21,7 @@ class Home extends React.Component {
     return (
       <Container p={0}>
         <Header />
+        <PostWrite />
         <Post />
         <Footer />
       </Container>
