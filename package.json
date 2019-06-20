@@ -3,17 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.4.5",
     "formik": "^1.5.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
-<<<<<<< HEAD
     "react-scripts": "3.0.1",
     "rebass": "^3.1.1",
     "styled-components": "^4.3.1"
-=======
-    "react-scripts": "3.0.1"
->>>>>>> 621910746b76749bd06323fe89502e4f3c62478e
   },
   "scripts": {
     "start": "react-scripts start",
