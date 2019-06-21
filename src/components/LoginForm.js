@@ -82,7 +82,10 @@ class LoginForm extends React.Component {
     e.preventDefault();
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
     }).catch((error) => {
-        console.log(error);
+        // if(error === 'auth/user-not-found'){
+        //   alert("Lo sentimos, no encontramos este usuario. Vuelve a intentarlo.");
+        // }
+        console.log(error.code);
       });
   }
 

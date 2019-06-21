@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Container from '../components/Container';
 import Card from '../components/Card';
 import BackgroundImage from '../components/Image';
 import firebase from '../config/FirestoreConfig.js';
-import Home from './home';
 
 class Login extends Component {
   constructor() {
@@ -11,38 +11,33 @@ class Login extends Component {
     this.state = ({
       user: null,
     });
-    this.authListener = this.authListener.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.authListener();
   }
 
-  authListener() {
+  authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         this.setState({ user });
-        localStorage.setItem('user', user.uid);
+        console.log(this.state.user)
       } else {
         this.setState({ user: null });
-        localStorage.removeItem('user');
       }
     });
   }
 
   render() {
     return (
-      <Container p={0}>
-        {this.state.user ? (
-            <Home />
-        ) : (
+      this.state.user ? (
+        <Redirect to='/home' />
+      ) : (
         <Container p={0}>
           <BackgroundImage src='https://i.postimg.cc/SRQ045Sj/verde.jpg' />
           <Card />
         </Container>
-        )}
-      </Container>
+      )
     );
   }
 }

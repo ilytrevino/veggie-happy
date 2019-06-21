@@ -5,11 +5,11 @@ class SwitchExample extends Component {
   constructor() {
     super();
     this.state = { checked: false };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(checked) {
+  handleChange = (checked) => {
     this.setState({ checked });
+    this.props.handleSwitch(this.state.checked);
   }
 
   render() {

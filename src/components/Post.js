@@ -44,6 +44,7 @@ const MenuDots = styled.a `
 `;
 
 class Post extends Component {
+  
   render() {
     return (
       <PostContainer ref="Post">
@@ -53,13 +54,13 @@ class Post extends Component {
               <PostUserAvatarImg src="https://scontent-qro1-1.xx.fbcdn.net/v/t1.0-9/50343425_10161200476515632_1845036058220167168_n.jpg?_nc_cat=111&_nc_oc=AQkFIUgg3xx7Cstib46DEJppkaF1Kz_wImD0OKml2k8RE6kEWFcqGmsC37-cs-T5dC8&_nc_ht=scontent-qro1-1.xx&oh=17c727ade354e38527e757b0b966c491&oe=5D7E651C" alt="Ily" />
             </PostUserAvatar>
             <PostUserNickname>
-              <span>Ily Trevino</span>
+              <span>{this.props.user}</span>
             </PostUserNickname>
             <MenuDots href=""><i className="fas fa-ellipsis-v"></i></MenuDots>
           </PostUser>
         </header>
         <PostCaption>
-          Moving the community!
+          {this.props.content}
         </PostCaption>
 
       </PostContainer>

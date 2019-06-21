@@ -1,6 +1,5 @@
 import React from "react";
 import styled from 'styled-components';
-import Logo from '../assets/logo.png';
 
 const NavMenus = styled.div `
   display: flex;

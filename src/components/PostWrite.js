@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from 'styled-components';
 import Switch from './Switch';
+import firebase from '../config/FirestoreConfig';
 
 const CreatePostContainer = styled.div `
   border-radius: 3px;
@@ -79,6 +80,60 @@ const PostButton = styled.button`
 `;
 
 class PostWrite extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      content: '',
+      privacy: false
+    };
+  }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleSwitch = (checked) => {
+    this.setState({ privacy: checked })
+  }
+
+  handlePost = () => {
+    const uid = firebase.auth().currentUser.uid;
+    const content = this.state.content;
+    let privacyValue = '';
+
+    if(this.state.privacy){
+      privacyValue = 'friends';
+    } else {
+      privacyValue = 'public';
+    }
+
+    firebase.database().ref('/users/' + uid).once('value')
+    .then((snapshot) => {
+      let username = (snapshot.val().nombre + " " + snapshot.val().apellido);
+      let postData = {
+        usuario: username,
+        body: content,
+        privacy: privacyValue,
+        starCount: 0,
+      };
+
+      let newPostKey = firebase.database().ref().child('posts').push().key;
+      let updates = {};
+      updates['/posts/' + newPostKey] = postData;
+      updates['/users/' + uid + '/posts/' + newPostKey] = postData;
+
+      return firebase.database().ref().update(updates);
+    });
+    this.handleReset();
+  }
+
+  handleReset = () => {
+    this.setState({
+      content: '',
+      privacy: false
+    })
+  }
+
   render() {
     return (
       <CreatePostContainer ref="Post">
@@ -91,17 +146,17 @@ class PostWrite extends Component {
         </header>
         <PostContent>
           <PostCaption>
-              <PostUserAvatarImg src="https://scontent-qro1-1.xx.fbcdn.net/v/t1.0-9/50343425_10161200476515632_1845036058220167168_n.jpg?_nc_cat=111&_nc_oc=AQkFIUgg3xx7Cstib46DEJppkaF1Kz_wImD0OKml2k8RE6kEWFcqGmsC37-cs-T5dC8&_nc_ht=scontent-qro1-1.xx&oh=17c727ade354e38527e757b0b966c491&oe=5D7E651C" alt="Ily" />
-            <PostInput placeholder="¿Qué quieres compartir hoy?" />
+            <PostUserAvatarImg src="https://scontent-qro1-1.xx.fbcdn.net/v/t1.0-9/50343425_10161200476515632_1845036058220167168_n.jpg?_nc_cat=111&_nc_oc=AQkFIUgg3xx7Cstib46DEJppkaF1Kz_wImD0OKml2k8RE6kEWFcqGmsC37-cs-T5dC8&_nc_ht=scontent-qro1-1.xx&oh=17c727ade354e38527e757b0b966c491&oe=5D7E651C" alt="Ily" />
+            <PostInput onChange={this.handleChange} name="content" value={this.state.content} placeholder="¿Qué quieres compartir hoy?" />
           </PostCaption>
         </PostContent>
         <PostFooter>
           <Icons className="fas fa-globe-americas"/>
           <SwitchDiv>
-            <Switch />
+            <Switch name="privacy" handleSwitch={this.handleSwitch}/>
           </SwitchDiv>
           <Icons className="fas fa-users"/>
-          <PostButton>Publicar</PostButton>
+          <PostButton onClick={this.handlePost} >Publicar</PostButton>
         </PostFooter>
       </CreatePostContainer>
     )

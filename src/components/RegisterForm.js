@@ -92,13 +92,39 @@ class RegisterForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  signup(e){
+  handleRegister = (e) => {
     e.preventDefault();
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-    }).then((u)=>{console.log(u)})
-    .catch((error) => {
-      console.log(error);
+    let email = this.state.email;
+    let password = this.state.password;
+    //Firebase function to create a new user in the registration area, with email and password
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .catch(function failure(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      alert(errorCode + "- Oh no, something went wrong :( " + errorMessage);
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+    //If my new user is logged in (which is true, because after registration it logs in automatically)
+      if (user) {
+        //I save the uid in a variable
+        let uid = user.uid;
+        //I call my save data function and send the uid
+        this.saveData(uid, email, password);
+      }
     })
+  }
+
+  saveData = (uid, email, password) => {
+    let user = {
+      nombre: this.state.name,
+      apellido: this.state.lastname,
+      ciudad: this.state.city,
+      email: email,
+      password: password,
+    }
+    //Dentro de mi rama de usuarios, guardo el usuario con su uid
+    firebase.database().ref("users/" + uid).set(user);
   }
 
   render() {
@@ -111,7 +137,7 @@ class RegisterForm extends React.Component {
           <FormLabel> Ciudad </FormLabel> <FormInput onChange={this.handleChange} name="city"/>
           <FormLabel> Correo electrónico </FormLabel> <FormInput onChange={this.handleChange} name="email"/>
           <FormLabel> Contraseña </FormLabel> <FormInput type="password" onChange={this.handleChange} name="password"/>
-          <SubmitButton onClick={this.signup} type="submit" value="Registrarse" />
+          <SubmitButton onClick={this.handleRegister} type="submit" value="Registrarse" />
           <p>¿Ya tienes cuenta? <FormAnchor onClick={this.props.handleCardChange} >¡Ingresa!</FormAnchor></p>
         </Form>
       </Register>
