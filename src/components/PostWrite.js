@@ -101,30 +101,35 @@ class PostWrite extends Component {
     const content = this.state.content;
     let privacyValue = '';
 
-    if(this.state.privacy){
-      privacyValue = 'friends';
+    if(this.state.content === ""){
+      alert('Ups, tu publicación no puede estar vacía, intenta de nuevo.')
     } else {
-      privacyValue = 'public';
+      if(!this.state.privacy){
+        privacyValue = 'public';
+      } else {
+        privacyValue = 'friends';
+      }
+
+      firebase.database().ref('/users/' + uid).once('value')
+      .then((snapshot) => {
+        let username = (snapshot.val().nombre + " " + snapshot.val().apellido);
+        let newPostKey = firebase.database().ref().child('posts').push().key;
+        let postData = {
+          user: username,
+          body: content,
+          privacy: privacyValue,
+          hearts: 0,
+          postKey: newPostKey
+        };
+
+        let updates = {};
+        updates['/posts/' + newPostKey] = postData;
+        updates['/users/' + uid + '/posts/' + newPostKey] = postData;
+
+        return firebase.database().ref().update(updates);
+      });
+      this.handleReset();
     }
-
-    firebase.database().ref('/users/' + uid).once('value')
-    .then((snapshot) => {
-      let username = (snapshot.val().nombre + " " + snapshot.val().apellido);
-      let postData = {
-        usuario: username,
-        body: content,
-        privacy: privacyValue,
-        starCount: 0,
-      };
-
-      let newPostKey = firebase.database().ref().child('posts').push().key;
-      let updates = {};
-      updates['/posts/' + newPostKey] = postData;
-      updates['/users/' + uid + '/posts/' + newPostKey] = postData;
-
-      return firebase.database().ref().update(updates);
-    });
-    this.handleReset();
   }
 
   handleReset = () => {

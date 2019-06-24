@@ -7,9 +7,9 @@ class SwitchExample extends Component {
     this.state = { checked: false };
   }
 
-  handleChange = (checked) => {
-    this.setState({ checked });
-    this.props.handleSwitch(this.state.checked);
+  handleChange = () => {
+    this.setState(prevState =>
+      ({ checked: !prevState.checked }), () => this.props.handleSwitch(this.state.checked));
   }
 
   render() {

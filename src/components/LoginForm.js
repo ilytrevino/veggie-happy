@@ -80,13 +80,19 @@ class LoginForm extends React.Component {
 
   login = (e) => {
     e.preventDefault();
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-    }).catch((error) => {
-        // if(error === 'auth/user-not-found'){
-        //   alert("Lo sentimos, no encontramos este usuario. Vuelve a intentarlo.");
-        // }
-        console.log(error.code);
-      });
+    if(this.state.email === ""){
+      alert('El campo de correo electrónico no puede estar vacío. Intenta de nuevo.')
+    } else {
+      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+      }).catch((error) => {
+          if(error.code === "auth/user-not-found"){
+            alert("Ups, no encontramos un usuario existente con este correo, revisa la información y vuelve a intentar.");
+          } else if(error.code === "auth/invalid-email"){
+            alert("Ups, el correo que ingresaste no es válido, revisa la información y vuelve a intentar.")
+          }
+          console.log(error.code);
+        });
+    }
   }
 
   render() {

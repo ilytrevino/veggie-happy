@@ -52,7 +52,7 @@ class Posts extends React.Component {
     return (
       <Container>
         {
-          this.state.posts.map((e, index) => (<Post key={index} user={e.usuario} content={e.body}/>))
+          this.state.posts.map((e, index) => (<Post key={e.postKey} likes={this.handleLikes} user={e.user} content={e.body} privacy={e.privacy} hearts={e.hearts} postKey={e.postKey}/>))
         }
       </Container>
     )
