@@ -77,9 +77,15 @@ class Post extends Component {
   handleLikes = () => {
     console.log('working likes')
     let postId = this.props.postKey;
-    let likesCountRef = firebase.database().ref('posts/' + postId + '/hearts');
-    likesCountRef.on('value', function(snapshot) {
-      console.log(snapshot.val())
+    let userId = this.props.user;
+    let likesCountRef = firebase.database().ref('posts/' + postId + '/heartsCount');
+    let likes = firebase.database().ref('posts/' + postId + '/hearts');
+    likes.on('value', (snapshot) => {
+      console.log(snapshot.val());
+
+      firebase.database().ref('posts/' + postId + '/hearts/' + userId).set({
+        heart: true
+      });
       // updateStarCount(postElement, snapshot.val());
     });
   }
