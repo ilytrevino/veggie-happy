@@ -118,8 +118,8 @@ class PostWrite extends Component {
           user: username,
           body: content,
           privacy: privacyValue,
-          heartsCount: 0,
-          hearts: '',
+          hearts: [],
+          uid,
           postKey: newPostKey
         };
 

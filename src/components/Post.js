@@ -73,30 +73,54 @@ const PostLikeCounter = styled.p`
 `;
 
 class Post extends Component {
-
-  handleLikes = () => {
-    console.log('working likes')
-    let postId = this.props.postKey;
-    let userId = this.props.user;
-    let likesCountRef = firebase.database().ref('posts/' + postId + '/heartsCount');
-    let likes = firebase.database().ref('posts/' + postId + '/hearts');
-    likes.on('value', (snapshot) => {
-      console.log(snapshot.val());
-
-      firebase.database().ref('posts/' + postId + '/hearts/' + userId).set({
-        heart: true
-      });
-      // updateStarCount(postElement, snapshot.val());
-    });
+  constructor(props){
+    super(props);
+    this.state = {
+      user: '',
+      hearts: ''
+    }
   }
 
-  // updateLikes = (hearts) => {
-  //   let updates = {};
-  //   updates['/posts' + ]
-  //   if(hearts === 0){
-  //     firebase.database().ref().update();
-  //   }
-  // }
+  componentDidMount(){
+    let user = firebase.auth().currentUser;
+    let postId = this.props.postKey;
+    let likes = firebase.database().ref('posts/' + postId + '/hearts');
+    likes.once('value').then(snapshot => {
+      this.setState({
+        user: user.uid,
+        hearts: snapshot.numChildren()
+      })
+    })
+  }
+
+  handleLikes = () => {
+
+    let promise = new Promise(resolve => {
+      let postId = this.props.postKey;
+      let userId = this.state.user;
+      let likes = firebase.database().ref('posts/' + postId + '/hearts');
+
+      likes.once('value')
+        .then((snapshot) => {
+
+          if(snapshot.hasChild(userId) && snapshot.child(userId).val() === true){
+
+            firebase.database().ref('posts/' + postId + '/hearts/' + userId).remove().then(() => {return resolve(snapshot)});
+
+          } else {
+            let hearts = {};
+            hearts[userId] = true;
+
+            firebase.database().ref('posts/' + postId + '/').update({
+              hearts
+            }).then(() => {return resolve(snapshot)});
+          }
+      })
+    });
+
+    promise.then(() => {this.componentDidMount()})
+
+  }
 
   render() {
     return (
@@ -117,7 +141,7 @@ class Post extends Component {
         </PostCaption>
         <PostLikeCount>
           <ClickLink onClick={this.handleLikes}><HeartIcon src={Like} /></ClickLink>
-          <PostLikeCounter>{this.props.hearts}</PostLikeCounter>
+          <PostLikeCounter>{this.state.hearts}</PostLikeCounter>
         </PostLikeCount>
 
       </PostContainer>
