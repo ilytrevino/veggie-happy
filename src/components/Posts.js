@@ -36,6 +36,10 @@ class Posts extends React.Component {
     })
   }
 
+  deletePost = (postKey) => {
+    firebase.database().ref('posts/' + postKey).remove();
+  }
+
   snapshotToArray = (snapshot) => {
     let returnArr = [];
 
@@ -52,7 +56,7 @@ class Posts extends React.Component {
     return (
       <Container>
         {
-          this.state.posts.map((e, index) => (<Post key={e.postKey} likes={this.handleLikes} user={e.user} content={e.body} privacy={e.privacy} uid={e.uid} hearts={e.heartsCount} postKey={e.postKey}/>))
+          this.state.posts.map((e, index) => (<Post key={e.postKey} handleDeletePost={this.deletePost} likes={this.handleLikes} user={e.user} content={e.body} privacy={e.privacy} uid={e.uid} hearts={e.heartsCount} postKey={e.postKey}/>))
         }
       </Container>
     )

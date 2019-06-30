@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from 'styled-components';
 import firebase from '../config/FirestoreConfig';
 import Like from '../assets/heart.png';
+import Alert from '../components/SweetAlert';
 
 const PostContainer = styled.div `
   border-radius: 3px;
@@ -41,6 +42,13 @@ const PostCaption = styled.div `
   padding: 10px;
 `;
 
+const PostInput = styled.textarea `
+  border: none;
+  display: flex;
+  flex: 1;
+  margin-right: 10px;
+`;
+
 const ClickLink = styled.button `
   border: none;
   background: none;
@@ -72,12 +80,24 @@ const PostLikeCounter = styled.p`
   margin: auto 0;
 `;
 
+const DeleteConfirmation = styled.div`
+  display:none;
+  position:fixed;
+  top:0px;
+  width:100%;
+  height:150px;
+  background-color:#5882FA;
+  text-align:center;
+`;
+
 class Post extends Component {
   constructor(props){
     super(props);
     this.state = {
       user: '',
-      hearts: ''
+      hearts: '',
+      edit: false,
+      alert: false
     }
   }
 
@@ -88,8 +108,25 @@ class Post extends Component {
     likes.once('value').then(snapshot => {
       this.setState({
         user: user.uid,
+        caption: this.props.content,
         hearts: snapshot.numChildren()
       })
+    })
+  }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleEdit = () => {
+    this.setState({
+      edit: true
+    });
+  }
+
+  handleSaveEdit = () => {
+    this.setState({
+      edit: false
     })
   }
 
@@ -122,6 +159,14 @@ class Post extends Component {
 
   }
 
+  handleDeletePost = () => {
+    this.setState({
+      alert: true
+    })
+    alert("¿Estás seguro que quieres eliminar esta publicación?");
+    // this.props.handleDeletePost(this.props.postKey)
+  }
+
   render() {
     return (
       <PostContainer ref="Post">
@@ -133,17 +178,20 @@ class Post extends Component {
             <PostUserNickname>
               <span>{this.props.user}</span> {this.props.privacy === 'public' ? <Icons className="fas fa-globe-americas"/> : <Icons className="fas fa-users"/>}
             </PostUserNickname>
-            <ClickLink href=""><i className="fas fa-ellipsis-v"></i></ClickLink>
+            {this.state.edit
+              ? <ClickLink onClick={this.handleSaveEdit}><i className="far fa-save"></i></ClickLink>
+              : <ClickLink onClick={this.handleEdit}><i className="fas fa-pencil-alt"></i></ClickLink>
+            }
+            <ClickLink onClick={this.handleDeletePost}><i className="fas fa-trash-alt"></i></ClickLink>
           </PostUser>
         </header>
-        <PostCaption>
-          {this.props.content}
+        <PostCaption name="caption" onChange={this.handleChange} contentEditable={this.state.edit}>
+          {this.state.caption}
         </PostCaption>
         <PostLikeCount>
           <ClickLink onClick={this.handleLikes}><HeartIcon src={Like} /></ClickLink>
           <PostLikeCounter>{this.state.hearts}</PostLikeCounter>
         </PostLikeCount>
-
       </PostContainer>
     )
   }
